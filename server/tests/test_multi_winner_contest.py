@@ -1,10 +1,37 @@
 import uuid, json
+import io
 from typing import List
 import pytest
 from flask.testing import FlaskClient
 
 from .helpers import *  # pylint: disable=wildcard-import
 from ..models import *  # pylint: disable=wildcard-import
+from ..worker.bgcompute import bgcompute_update_ballot_manifest_file
+
+
+@pytest.fixture
+def manifests(client: FlaskClient, election_id: str, jurisdiction_ids: List[str]):
+    for jurisdiction_id in jurisdiction_ids[:2]:
+        set_logged_in_user(
+            client, UserType.JURISDICTION_ADMIN, default_ja_email(election_id)
+        )
+        rv = client.put(
+            f"/api/election/{election_id}/jurisdiction/{jurisdiction_id}/ballot-manifest",
+            data={
+                "manifest": (
+                    io.BytesIO(
+                        b"Batch Name,Number of Ballots\n"
+                        b"1,125\n"
+                        b"2,125\n"
+                        b"3,125\n"
+                        b"4,125\n"
+                    ),
+                    "manifest.csv",
+                )
+            },
+        )
+        assert_ok(rv)
+    bgcompute_update_ballot_manifest_file(election_id)
 
 
 @pytest.fixture
@@ -37,6 +64,7 @@ def test_multi_winner_sample_size(
     election_id: str,
     contest_ids: List[str],  # pylint: disable=unused-argument
     election_settings,  # pylint: disable=unused-argument
+    manifests,  # pylint: disable=unused-argument
     snapshot,
 ):
     set_logged_in_user(client, UserType.AUDIT_ADMIN, DEFAULT_AA_EMAIL)

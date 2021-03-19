@@ -1,7 +1,7 @@
 from typing import Dict
 from collections import Counter
 from flask import jsonify
-from werkzeug.exceptions import BadRequest
+from werkzeug.exceptions import BadRequest, Conflict
 
 from . import api
 from ..models import *  # pylint: disable=wildcard-import
@@ -18,6 +18,18 @@ from .cvrs import validate_uploaded_cvrs
 from .ballot_manifest import validate_uploaded_manifests
 
 
+def validate_ballot_polling_manifests(contest: Contest):
+    total_manifest_ballots = sum(
+        jurisdiction.manifest_num_ballots or 0 for jurisdiction in contest.jurisdictions
+    )
+    assert contest.total_ballots_cast is not None
+    if total_manifest_ballots < contest.total_ballots_cast:
+        raise Conflict(
+            f"Contest {contest.name} total ballots cast ({contest.total_ballots_cast}) must not be greater than"
+            f" the total number of ballots across all jurisdiction manifests ({total_manifest_ballots})"
+        )
+
+
 # Because the /sample-sizes endpoint is only used for the audit setup flow,
 # we always want it to return the sample size options for the first round.
 # So we support a flag in this function to compute the sample sizes for
@@ -32,7 +44,10 @@ def sample_size_options(
 
     def sample_sizes_for_contest(contest: Contest):
         assert election.risk_limit is not None
+
         if election.audit_type == AuditType.BALLOT_POLLING:
+            validate_ballot_polling_manifests(contest)
+
             sample_results = (
                 None if round_one else rounds.contest_results_by_round(contest)
             )

@@ -327,3 +327,44 @@ def test_ballot_manifest_upload_duplicate_batch_name(
             },
         },
     )
+
+
+def test_ballot_manifest_contest_validation(
+    client: FlaskClient,
+    election_id: str,
+    jurisdiction_ids: List[str],
+    contest_ids: List[str],  # pylint: disable=unused-argument
+    election_settings,  # pylint: disable=unused-argument
+):
+    set_logged_in_user(
+        client, UserType.JURISDICTION_ADMIN, default_ja_email(election_id)
+    )
+    rv = client.put(
+        f"/api/election/{election_id}/jurisdiction/{jurisdiction_ids[0]}/ballot-manifest",
+        data={
+            "manifest": (
+                io.BytesIO(
+                    b"Batch Name,Number of Ballots\n"
+                    b"Batch 1,10\n"
+                    b"Batch 2,10\n"
+                    b"Batch 3,10\n"
+                ),
+                "manifest.csv",
+            )
+        },
+    )
+    assert_ok(rv)
+
+    bgcompute_update_ballot_manifest_file(election_id)
+
+    set_logged_in_user(client, UserType.AUDIT_ADMIN, DEFAULT_AA_EMAIL)
+    rv = client.get(f"/api/election/{election_id}/sample-sizes")
+    assert rv.status_code == 409
+    assert json.loads(rv.data) == {
+        "errors": [
+            {
+                "errorType": "Conflict",
+                "message": "Contest Contest 1 total ballots cast (1000) must not be greater than the total number of ballots across all jurisdiction manifests (30)",
+            }
+        ]
+    }
