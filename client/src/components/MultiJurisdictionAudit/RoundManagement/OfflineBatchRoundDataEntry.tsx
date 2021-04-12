@@ -320,10 +320,14 @@ const OfflineBatchRoundDataEntry = ({ round }: IProps) => {
                     >
                       <div style={{ flexGrow: 1 }}>
                         <H4>Batch Info</H4>
-                        <FormGroup label="Batch Name">
+                        <FormGroup
+                          label="Batch Name"
+                          labelFor="editingBatch-batchName"
+                        >
                           <Field
                             type="text"
                             name="editingBatch.batchName"
+                            id="editingBatch-batchName"
                             component={InputWithValidation}
                             validate={(value: string) =>
                               !value ? 'Required' : null
@@ -331,9 +335,13 @@ const OfflineBatchRoundDataEntry = ({ round }: IProps) => {
                             autoFocus
                           />
                         </FormGroup>
-                        <FormGroup label="Batch Type">
+                        <FormGroup
+                          label="Batch Type"
+                          labelFor="editingBatch-batchType"
+                        >
                           <Field
                             name="editingBatch.batchType"
+                            id="editingBatch-batchType"
                             component={SelectWithValidation}
                             validate={(value: string) =>
                               !value ? 'Required' : null
@@ -352,10 +360,14 @@ const OfflineBatchRoundDataEntry = ({ round }: IProps) => {
                         <H4>Audited Votes</H4>
                         {contest.choices.map(choice => (
                           <div key={`editing-${choice.id}`}>
-                            <FormGroup label={choice.name}>
+                            <FormGroup
+                              label={choice.name}
+                              labelFor={`editingBatch-choiceResults-${choice.id}`}
+                            >
                               <Field
                                 type="number"
                                 name={`editingBatch.choiceResults.${choice.id}`}
+                                id={`editingBatch-choiceResults-${choice.id}`}
                                 component={InputWithValidation}
                                 validate={testNumber()}
                               />
