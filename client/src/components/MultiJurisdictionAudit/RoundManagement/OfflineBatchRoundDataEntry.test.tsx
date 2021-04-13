@@ -128,7 +128,7 @@ describe('offline batch round data entry', () => {
     })
   })
 
-  it.skip('submits offline batch', async () => {
+  it('submits offline batch', async () => {
     const expectedCalls = [
       apiCalls.getJAContests({ contests: contestMocks.oneTargeted }),
       apiCalls.getResults(offlineBatchMocks.empty),
@@ -170,6 +170,7 @@ describe('offline batch round data entry', () => {
       fireEvent.click(
         within(dialog).getByRole('button', { name: 'Save Batch' })
       )
+
       await screen.findByText('Batch1')
       expect(container).toMatchSnapshot()
     })
@@ -222,7 +223,7 @@ describe('offline batch round data entry', () => {
     })
   })
 
-  it.skip('edits offline batch', async () => {
+  it('edits offline batch', async () => {
     const expectedCalls = [
       apiCalls.getJAContests({ contests: contestMocks.oneTargeted }),
       apiCalls.getResults(offlineBatchMocks.complete),

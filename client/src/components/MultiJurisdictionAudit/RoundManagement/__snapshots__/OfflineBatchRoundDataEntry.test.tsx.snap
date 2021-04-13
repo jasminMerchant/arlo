@@ -156,7 +156,7 @@ exports[`offline batch round data entry deletes offline batch 1`] = `
 </div>
 `;
 
-exports[`offline batch round data entry deletes offline batches 1`] = `
+exports[`offline batch round data entry edits offline batch 1`] = `
 <div>
   <form
     class="sc-bdVaJa hazmWT"
@@ -199,9 +199,54 @@ exports[`offline batch round data entry deletes offline batches 1`] = `
         <tbody>
           <tr>
             <td
-              colspan="5"
+              style="text-align: center;"
             >
-              No batches added. Add your first batch below.
+              <button
+                class="bp3-button"
+                type="button"
+              >
+                <span
+                  class="bp3-icon bp3-icon-edit"
+                  icon="edit"
+                >
+                  <svg
+                    data-icon="edit"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    width="16"
+                  >
+                    <desc>
+                      edit
+                    </desc>
+                    <path
+                      d="M3.25 10.26l2.47 2.47 6.69-6.69-2.46-2.48-6.7 6.7zM.99 14.99l3.86-1.39-2.46-2.44-1.4 3.83zm12.25-14c-.48 0-.92.2-1.24.51l-1.44 1.44 2.47 2.47 1.44-1.44c.32-.32.51-.75.51-1.24.01-.95-.77-1.74-1.74-1.74z"
+                      fill-rule="evenodd"
+                    />
+                  </svg>
+                </span>
+                <span
+                  class="bp3-button-text"
+                >
+                  Edit
+                </span>
+              </button>
+            </td>
+            <td>
+              Batch12
+            </td>
+            <td>
+              Other
+            </td>
+            <td>
+              10
+            </td>
+            <td>
+              20
+            </td>
+            <td
+              style="color: rgb(19, 124, 189); font-weight: 600;"
+            >
+              30
             </td>
           </tr>
           <tr>
@@ -219,17 +264,17 @@ exports[`offline batch round data entry deletes offline batches 1`] = `
             <td
               style="color: rgb(19, 124, 189); font-weight: 600;"
             >
-              0
+              10
             </td>
             <td
               style="color: rgb(19, 124, 189); font-weight: 600;"
             >
-              0
+              20
             </td>
             <td
               style="color: rgb(19, 124, 189); font-weight: 600;"
             >
-              0
+              30
             </td>
           </tr>
         </tbody>
@@ -1194,9 +1239,54 @@ exports[`offline batch round data entry submits offline batch 1`] = `
         <tbody>
           <tr>
             <td
-              colspan="5"
+              style="text-align: center;"
             >
-              No batches added. Add your first batch below.
+              <button
+                class="bp3-button"
+                type="button"
+              >
+                <span
+                  class="bp3-icon bp3-icon-edit"
+                  icon="edit"
+                >
+                  <svg
+                    data-icon="edit"
+                    height="16"
+                    viewBox="0 0 16 16"
+                    width="16"
+                  >
+                    <desc>
+                      edit
+                    </desc>
+                    <path
+                      d="M3.25 10.26l2.47 2.47 6.69-6.69-2.46-2.48-6.7 6.7zM.99 14.99l3.86-1.39-2.46-2.44-1.4 3.83zm12.25-14c-.48 0-.92.2-1.24.51l-1.44 1.44 2.47 2.47 1.44-1.44c.32-.32.51-.75.51-1.24.01-.95-.77-1.74-1.74-1.74z"
+                      fill-rule="evenodd"
+                    />
+                  </svg>
+                </span>
+                <span
+                  class="bp3-button-text"
+                >
+                  Edit
+                </span>
+              </button>
+            </td>
+            <td>
+              Batch1
+            </td>
+            <td>
+              Other
+            </td>
+            <td>
+              10
+            </td>
+            <td>
+              20
+            </td>
+            <td
+              style="color: rgb(19, 124, 189); font-weight: 600;"
+            >
+              30
             </td>
           </tr>
           <tr>
@@ -1214,17 +1304,17 @@ exports[`offline batch round data entry submits offline batch 1`] = `
             <td
               style="color: rgb(19, 124, 189); font-weight: 600;"
             >
-              0
+              10
             </td>
             <td
               style="color: rgb(19, 124, 189); font-weight: 600;"
             >
-              0
+              20
             </td>
             <td
               style="color: rgb(19, 124, 189); font-weight: 600;"
             >
-              0
+              30
             </td>
           </tr>
         </tbody>
