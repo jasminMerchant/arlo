@@ -176,7 +176,12 @@ export const batchesMocks: {
 }
 
 export const offlineBatchMocks: {
-  [key in 'empty' | 'complete' | 'updated']: IOfflineBatchResults
+  [key in
+    | 'empty'
+    | 'complete'
+    | 'updated'
+    | 'finalized'
+    | 'completeWithMultipleBatch']: IOfflineBatchResults
 } = {
   empty: {
     finalizedAt: '',
@@ -195,8 +200,42 @@ export const offlineBatchMocks: {
       },
     ],
   },
+  completeWithMultipleBatch: {
+    finalizedAt: '',
+    results: [
+      {
+        batchName: 'Batch1',
+        batchType: 'Other',
+        choiceResults: {
+          'choice-id-1': 5,
+          'choice-id-2': 15,
+        },
+      },
+      {
+        batchName: 'Batch2',
+        batchType: 'Provisional',
+        choiceResults: {
+          'choice-id-1': 5,
+          'choice-id-2': 5,
+        },
+      },
+    ],
+  },
   updated: {
     finalizedAt: '',
+    results: [
+      {
+        batchName: 'Batch12',
+        batchType: 'Other',
+        choiceResults: {
+          'choice-id-1': 10,
+          'choice-id-2': 20,
+        },
+      },
+    ],
+  },
+  finalized: {
+    finalizedAt: '2021-04-13T15:01:00.383031+00:00',
     results: [
       {
         batchName: 'Batch12',

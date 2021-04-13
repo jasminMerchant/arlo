@@ -2,15 +2,8 @@ import React from 'react'
 import { screen, fireEvent, within, waitFor, act } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { useParams } from 'react-router-dom'
-import BatchRoundDataEntry from './BatchRoundDataEntry'
 import { roundMocks, contestMocks } from '../useSetupMenuItems/_mocks'
-import {
-  batchesMocks,
-  batchResultsMocks,
-  INullResultValues,
-  offlineBatchMocks,
-  offlineBatchResultsMocks,
-} from './_mocks'
+import { offlineBatchMocks, offlineBatchResultsMocks } from './_mocks'
 import { renderWithRouter, withMockFetch } from '../../testUtilities'
 import { IContest } from '../../../types'
 import { IBatch } from './useBatchResults'
@@ -73,6 +66,13 @@ const apiCalls = {
     },
     response: { status: 'ok' },
   }),
+  finalizeResults: {
+    url: '/api/election/1/jurisdiction/1/round/round-1/results/batch/finalize',
+    options: {
+      method: 'POST',
+    },
+    response: { status: 'ok' },
+  },
 }
 
 describe('offline batch round data entry', () => {
@@ -195,7 +195,34 @@ describe('offline batch round data entry', () => {
     })
   })
 
-  it.skip('edits offline batche', async () => {
+  it('renders with proper totals', async () => {
+    const expectedCalls = [
+      apiCalls.getJAContests({ contests: contestMocks.oneTargeted }),
+      apiCalls.getResults(offlineBatchMocks.completeWithMultipleBatch),
+    ]
+    await withMockFetch(expectedCalls, async () => {
+      const { container } = renderWithRouter(
+        <OfflineBatchRoundDataEntry
+          round={roundMocks.singleIncompleteOffline[0]}
+        />,
+        {
+          route: '/election/1/jurisdiction/1',
+        }
+      )
+      await screen.findByText('Batch1')
+
+      const totalRow = screen
+        .getAllByText('Total')[1]
+        .closest('tr')! as HTMLElement
+
+      // checking if total is proper
+      within(totalRow).getByText('30')
+
+      expect(container).toMatchSnapshot()
+    })
+  })
+
+  it.skip('edits offline batch', async () => {
     const expectedCalls = [
       apiCalls.getJAContests({ contests: contestMocks.oneTargeted }),
       apiCalls.getResults(offlineBatchMocks.complete),
@@ -232,7 +259,7 @@ describe('offline batch round data entry', () => {
     })
   })
 
-  it('deletes offline batches', async () => {
+  it('deletes offline batch', async () => {
     const expectedCalls = [
       apiCalls.getJAContests({ contests: contestMocks.oneTargeted }),
       apiCalls.getResults(offlineBatchMocks.complete),
@@ -261,6 +288,42 @@ describe('offline batch round data entry', () => {
         within(dialog).getByRole('button', { name: 'Remove Batch' })
       )
       await screen.findByText('No batches added. Add your first batch below.')
+
+      expect(container).toMatchSnapshot()
+    })
+  })
+
+  it('finalizes offline batches', async () => {
+    const expectedCalls = [
+      apiCalls.getJAContests({ contests: contestMocks.oneTargeted }),
+      apiCalls.getResults(offlineBatchMocks.complete),
+      apiCalls.finalizeResults,
+      apiCalls.getResults(offlineBatchMocks.finalized),
+    ]
+    await withMockFetch(expectedCalls, async () => {
+      const { container } = renderWithRouter(
+        <OfflineBatchRoundDataEntry
+          round={roundMocks.singleIncompleteOffline[0]}
+        />,
+        {
+          route: '/election/1/jurisdiction/1',
+        }
+      )
+      await screen.findByText('Batch1')
+
+      fireEvent.click(screen.getByRole('button', { name: 'Finalize Results' }))
+
+      const dialog = (await screen.findByRole('heading', {
+        name: /Are you sure you want to finalize your results?/,
+      })).closest('.bp3-dialog')! as HTMLElement
+
+      within(dialog).getByText('This action cannot be undone.')
+
+      fireEvent.click(
+        within(dialog).getByRole('button', { name: 'Finalize Results' })
+      )
+
+      await screen.findByText(/Results finalized at/)
 
       expect(container).toMatchSnapshot()
     })
