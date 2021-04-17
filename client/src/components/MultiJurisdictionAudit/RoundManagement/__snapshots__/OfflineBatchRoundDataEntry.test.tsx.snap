@@ -512,7 +512,9 @@ exports[`offline batch round data entry finalizes offline batches 1`] = `
         style="display: flex; justify-content: space-between; margin-top: 20px;"
       >
         <button
-          class="bp3-button bp3-intent-primary"
+          class="bp3-button bp3-disabled bp3-intent-primary"
+          disabled=""
+          tabindex="-1"
           type="button"
         >
           <span
@@ -571,7 +573,9 @@ exports[`offline batch round data entry finalizes offline batches 1`] = `
           </span>
         </button>
         <button
-          class="bp3-button"
+          class="bp3-button bp3-disabled"
+          disabled=""
+          tabindex="-1"
           type="button"
         >
           <span
