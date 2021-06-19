@@ -155,7 +155,7 @@ const Header: React.FC<{}> = () => {
           </InnerBar>
         </SupportBar>
       )}
-      {!supportMatch && auth && auth.user && auth.user.type !== 'audit_board' && (
+      {!supportMatch && (
         <Nav>
           <InnerBar>
             <NavbarGroup align={Alignment.LEFT}>
