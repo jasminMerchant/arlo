@@ -1,4 +1,5 @@
 /* eslint-disable react/display-name */
+/* eslint-disable react/prop-types */
 import React from 'react'
 import styled from 'styled-components'
 import { H3, H4, Colors, OL, Icon } from '@blueprintjs/core'
@@ -32,7 +33,6 @@ const HeaderInnerWrapper = styled(Inner)`
   display: flex;
   align-items: center;
   justify-content: space-between;
-
   @media only screen and (max-width: 767px) {
     flex-direction: column;
   }
@@ -42,7 +42,6 @@ const ContentWrapper = styled.div`
   display: flex;
   margin-top: 30px;
   width: 100%;
-
   @media only screen and (max-width: 767px) {
     flex-direction: column;
   }
@@ -50,10 +49,20 @@ const ContentWrapper = styled.div`
 
 const TableWrapper = styled.div`
   width: 70%;
-
   @media only screen and (max-width: 767px) {
     order: 2;
     width: 100%;
+  }
+`
+
+const InnerTableWrapper = styled.div`
+  overflow: auto;
+
+  /* to make table responsive */
+  @media only screen and (max-width: 767px) {
+    table {
+      table-layout: auto;
+    }
   }
 `
 
@@ -91,6 +100,28 @@ const WarningLabel = styled.span`
   color: ${Colors.ORANGE3};
 `
 
+const InstructionsList = styled(OL)`
+  &.bp3-list li:not(:last-child) {
+    margin-bottom: 20px;
+  }
+`
+
+const HeaderLinkBtn = styled(LinkButton)`
+  border-radius: 5px;
+  font-weight: 600;
+`
+
+const SubmitBallotButton = styled(LinkButton)`
+  float: right;
+  margin-top: 10px;
+  border-radius: 5px;
+  font-weight: 600;
+`
+
+const TableColumn = styled.p`
+  margin-bottom: 0;
+`
+
 interface IProps {
   boardName: IAuditBoard['name']
   ballots: IBallot[]
@@ -102,17 +133,21 @@ const BoardTable: React.FC<IProps> = ({ boardName, ballots, url }: IProps) => {
     {
       Header: 'Batch',
       accessor: ballot => (
-        <p style={ballot.status !== BallotStatus.NOT_AUDITED ? grayColor : {}}>
+        <TableColumn
+          style={ballot.status !== BallotStatus.NOT_AUDITED ? grayColor : {}}
+        >
           {ballot.batch.name}
-        </p>
+        </TableColumn>
       ),
     },
     {
       Header: 'Position',
       accessor: ballot => (
-        <p style={ballot.status !== BallotStatus.NOT_AUDITED ? grayColor : {}}>
+        <TableColumn
+          style={ballot.status !== BallotStatus.NOT_AUDITED ? grayColor : {}}
+        >
           {ballot.position}
-        </p>
+        </TableColumn>
       ),
     },
     {
@@ -122,13 +157,13 @@ const BoardTable: React.FC<IProps> = ({ boardName, ballots, url }: IProps) => {
         return ballot.status !== BallotStatus.NOT_AUDITED ? (
           <>
             {ballot.status === BallotStatus.AUDITED ? (
-              <p style={grayColor}>
+              <TableColumn style={grayColor}>
                 <Icon icon="tick" /> Audited
-              </p>
+              </TableColumn>
             ) : (
-              <p style={grayColor}>
+              <TableColumn style={grayColor}>
                 <Icon icon="tick" /> Not Found
-              </p>
+              </TableColumn>
             )}
           </>
         ) : (
@@ -163,12 +198,24 @@ const BoardTable: React.FC<IProps> = ({ boardName, ballots, url }: IProps) => {
   if (ballots.length && ballots[0].batch.tabulator)
     columns.unshift({
       Header: 'Tabulator',
-      accessor: ({ batch: { tabulator } }) => tabulator,
+      accessor: ({ batch: { tabulator }, status }) => (
+        <TableColumn
+          style={status !== BallotStatus.NOT_AUDITED ? grayColor : {}}
+        >
+          {tabulator}
+        </TableColumn>
+      ),
     })
   if (ballots.length && ballots[0].batch.container)
     columns.unshift({
       Header: 'Container',
-      accessor: ({ batch: { container } }) => container,
+      accessor: ({ batch: { container }, status }) => (
+        <TableColumn
+          style={status !== BallotStatus.NOT_AUDITED ? grayColor : {}}
+        >
+          {container}
+        </TableColumn>
+      ),
     })
 
   const roundComplete = ballots.every(
@@ -192,21 +239,20 @@ const BoardTable: React.FC<IProps> = ({ boardName, ballots, url }: IProps) => {
   ).length
 
   const HeaderButton = roundComplete ? (
-    <LinkButton to={`${url}/signoff`} intent="success" large>
+    <HeaderLinkBtn to={`${url}/signoff`} intent="success">
       Submit Audited Ballots
-    </LinkButton>
+    </HeaderLinkBtn>
   ) : (
-    <LinkButton
+    <HeaderLinkBtn
       to={
         unauditedBallot
           ? `${url}/batch/${unauditedBallot.batch.id}/ballot/${unauditedBallot.position}`
           : ''
       }
       intent="success"
-      large
     >
       {totalAudited === 0 ? 'Audit First Ballot' : 'Audit Next Ballot'}
-    </LinkButton>
+    </HeaderLinkBtn>
   )
 
   return (
@@ -214,7 +260,7 @@ const BoardTable: React.FC<IProps> = ({ boardName, ballots, url }: IProps) => {
       <HeaderWrapper>
         <HeaderInnerWrapper>
           <LeftSection>
-            <p className="bp3-text-large">
+            <p>
               {totalAudited + totalNotFound} of {ballots.length} ballots have
               been audited.
             </p>
@@ -237,20 +283,21 @@ const BoardTable: React.FC<IProps> = ({ boardName, ballots, url }: IProps) => {
         <ContentWrapper>
           <TableWrapper>
             <H3>Ballots for {boardName}</H3>
-            <Table data={ballots} columns={columns} />
-            <LinkButton
+            <InnerTableWrapper>
+              <Table data={ballots} columns={columns} />
+            </InnerTableWrapper>
+            <SubmitBallotButton
               to={`${url}/signoff`}
               disabled={!roundComplete}
               intent={roundComplete ? 'success' : 'none'}
-              style={{ float: 'right', marginTop: '10px' }}
               large
             >
               Submit Audited Ballots
-            </LinkButton>
+            </SubmitBallotButton>
           </TableWrapper>
           <InstructionsWrapper>
             <H4>Instructions</H4>
-            <OL>
+            <InstructionsList>
               <li>
                 Locate and retrieve the list of ballots to audit from storage.
               </li>
@@ -259,7 +306,7 @@ const BoardTable: React.FC<IProps> = ({ boardName, ballots, url }: IProps) => {
                 Once all ballots are audited, Submit audited ballots. Once
                 results are submitted, no further edits can be made.
               </li>
-            </OL>
+            </InstructionsList>
           </InstructionsWrapper>
         </ContentWrapper>
       </Inner>

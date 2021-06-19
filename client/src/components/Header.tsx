@@ -25,11 +25,9 @@ const SupportBar = styled(Navbar)`
   padding: 0;
   color: ${Colors.WHITE};
   font-weight: 500;
-
   .bp3-navbar-group {
     height: 35px;
   }
-
   a {
     text-decoration: none;
     color: ${Colors.WHITE};
@@ -37,7 +35,6 @@ const SupportBar = styled(Navbar)`
       margin-right: 8px;
     }
   }
-
   .bp3-navbar-divider {
     border-color: rgba(255, 255, 255, 0.7);
   }
@@ -47,7 +44,6 @@ const Nav = styled(Navbar)`
   width: 100%;
   height: auto;
   padding: 0;
-
   .bp3-navbar-heading img {
     height: 35px;
     padding-top: 5px;
@@ -82,7 +78,24 @@ const UserMenu = styled.div`
 `
 
 const InnerBar = styled(Inner)`
-  display: inherit;
+  display: flex;
+  justify-content: space-between;
+
+  .members-name p {
+    margin-bottom: 0;
+  }
+
+  .logo-mobile {
+    display: none;
+  }
+  @media only screen and (max-width: 767px) {
+    .logo-desktop {
+      display: none;
+    }
+    .logo-mobile {
+      display: block;
+    }
+  }
 `
 
 const AuditBoardInnerBar = styled(Inner)`
@@ -148,7 +161,16 @@ const Header: React.FC<{}> = () => {
             <NavbarGroup align={Alignment.LEFT}>
               <NavbarHeading>
                 <Link to="/">
-                  <img src="/arlo.png" alt="Arlo, by VotingWorks" />
+                  <img
+                    src="/arlo.png"
+                    alt="Arlo, by VotingWorks"
+                    className="logo-desktop"
+                  />
+                  <img
+                    src="/arlo-mobile.png"
+                    alt="Arlo, by VotingWorks"
+                    className="logo-mobile"
+                  />
                 </Link>
               </NavbarHeading>
               {jurisdiction && (
@@ -156,50 +178,71 @@ const Header: React.FC<{}> = () => {
               )}
             </NavbarGroup>
             {auth && auth.user && (
-              <NavbarGroup align={Alignment.RIGHT}>
-                {electionId && auth.user.type === 'audit_admin' && (
-                  <>
-                    <LinkButton
-                      to={`/election/${electionId}/setup`}
-                      minimal
-                      icon="wrench"
-                    >
-                      Audit Setup
-                    </LinkButton>
-                    <LinkButton
-                      to={`/election/${electionId}/progress`}
-                      minimal
-                      icon="horizontal-bar-chart"
-                    >
-                      Audit Progress
-                    </LinkButton>
-                    <LinkButton to="/" minimal icon="projects">
-                      View Audits
-                    </LinkButton>
-                    <LinkButton to="/" minimal icon="insert">
-                      New Audit
-                    </LinkButton>
-                    <NavbarDivider />
-                  </>
+              <>
+                {auth.user.type === 'audit_board' && auth.user.members && (
+                  <NavbarGroup className="members-name">
+                    <NavbarHeading>
+                      {auth.user.name}
+                      {auth.user.members && (
+                        <>
+                          :{' '}
+                          <strong>
+                            {auth.user.members
+                              .map(member => member.name)
+                              .join(', ')}
+                          </strong>
+                        </>
+                      )}
+                    </NavbarHeading>
+                  </NavbarGroup>
                 )}
-                <UserMenu>
-                  <Popover
-                    content={
-                      <Menu>
-                        <MenuItem text="Log out" href="/auth/logout" />
-                      </Menu>
-                    }
-                    usePortal={false}
-                    position={Position.BOTTOM}
-                    minimal
-                    fill
-                  >
-                    <Button icon="user" minimal>
-                      {auth.user.email}
-                    </Button>
-                  </Popover>
-                </UserMenu>
-              </NavbarGroup>
+                <NavbarGroup align={Alignment.RIGHT}>
+                  {electionId && auth.user.type === 'audit_admin' && (
+                    <>
+                      <LinkButton
+                        to={`/election/${electionId}/setup`}
+                        minimal
+                        icon="wrench"
+                      >
+                        Audit Setup
+                      </LinkButton>
+                      <LinkButton
+                        to={`/election/${electionId}/progress`}
+                        minimal
+                        icon="horizontal-bar-chart"
+                      >
+                        Audit Progress
+                      </LinkButton>
+                      <LinkButton to="/" minimal icon="projects">
+                        View Audits
+                      </LinkButton>
+                      <LinkButton to="/" minimal icon="insert">
+                        New Audit
+                      </LinkButton>
+                      <NavbarDivider />
+                    </>
+                  )}
+                  <UserMenu>
+                    <Popover
+                      content={
+                        <Menu>
+                          <MenuItem text="Log out" href="/auth/logout" />
+                        </Menu>
+                      }
+                      usePortal={false}
+                      position={Position.BOTTOM}
+                      minimal
+                      fill
+                    >
+                      <Button icon="user" minimal>
+                        {auth.user.type === 'audit_board'
+                          ? auth.user.name
+                          : auth.user.email}
+                      </Button>
+                    </Popover>
+                  </UserMenu>
+                </NavbarGroup>
+              </>
             )}
           </InnerBar>
         </Nav>
