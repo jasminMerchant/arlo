@@ -6,13 +6,13 @@ exports[`App / renders aa logged in properly 1`] = `
     class="Toastify"
   />
   <div
-    class="sc-gqPbQI hwbsHU"
+    class="sc-iuJeZd bEMbK"
   >
     <div
       class="bp3-navbar sc-bxivhb gvSyoM"
     >
       <div
-        class="sc-bwzfXH sc-EHOje GDJyz"
+        class="sc-bwzfXH sc-EHOje mfJYp"
       >
         <div
           class="bp3-navbar-group bp3-align-left"
@@ -40,7 +40,7 @@ exports[`App / renders aa logged in properly 1`] = `
           class="bp3-navbar-group bp3-align-right"
         >
           <div
-            class="sc-EHOje fOUAJN"
+            class="sc-ifAKCX fWzXiF"
           >
             <div
               class="bp3-popover-wrapper bp3-fill"
@@ -93,7 +93,7 @@ exports[`App / renders aa logged in properly 1`] = `
           style="width: 50%;"
         >
           <div
-            class="sc-hZSUBg XwgsZ"
+            class="sc-gwVKww jGtVoR"
           >
             <div>
               <h2>
@@ -111,16 +111,16 @@ exports[`App / renders aa logged in properly 1`] = `
           style="width: 50%;"
         >
           <div
-            class="sc-cMhqgX YJSjJ"
+            class="sc-hXRMBi gnGNXJ"
           >
             <h2>
               New Audit
             </h2>
             <div
-              class="sc-kAzzGY iPDebS"
+              class="sc-fjdhpX bHlbRA"
             />
             <div
-              class="sc-kAzzGY iPDebS"
+              class="sc-fjdhpX bHlbRA"
             >
               <label
                 for="auditName"
@@ -129,10 +129,10 @@ exports[`App / renders aa logged in properly 1`] = `
                   Audit name
                 </p>
                 <div
-                  class="sc-esOvli tkknN sc-kAzzGY bLtYsq"
+                  class="sc-iQNlJl jSuVsI sc-kAzzGY bLtYsq"
                 >
                   <div
-                    class="bp3-input-group sc-kpOJdX eAoFAV"
+                    class="bp3-input-group sc-chPdSV PhUsl"
                   >
                     <input
                       class="bp3-input"
@@ -147,7 +147,7 @@ exports[`App / renders aa logged in properly 1`] = `
               </label>
             </div>
             <div
-              class="sc-kAzzGY iPDebS"
+              class="sc-fjdhpX bHlbRA"
             >
               <label
                 for="auditType"
@@ -171,7 +171,7 @@ exports[`App / renders aa logged in properly 1`] = `
                     Ballot Polling
                   </label>
                   <div
-                    class="sc-iuJeZd ktwrIZ"
+                    class="sc-epnACN gRBZkk"
                   >
                     <label
                       for="auditMathType"
@@ -253,7 +253,7 @@ exports[`App / renders aa logged in properly 1`] = `
               </label>
             </div>
             <button
-              class="bp3-button bp3-fill bp3-large bp3-intent-primary sc-jTzLTM kWdIFo"
+              class="bp3-button bp3-fill bp3-large bp3-intent-primary sc-gZMcBi eZVGYn"
               type="button"
             >
               <span
@@ -276,13 +276,13 @@ exports[`App / renders ja logged in properly 1`] = `
     class="Toastify"
   />
   <div
-    class="sc-gqPbQI hwbsHU"
+    class="sc-iuJeZd bEMbK"
   >
     <div
       class="bp3-navbar sc-bxivhb gvSyoM"
     >
       <div
-        class="sc-bwzfXH sc-EHOje GDJyz"
+        class="sc-bwzfXH sc-EHOje mfJYp"
       >
         <div
           class="bp3-navbar-group bp3-align-left"
@@ -310,7 +310,7 @@ exports[`App / renders ja logged in properly 1`] = `
           class="bp3-navbar-group bp3-align-right"
         >
           <div
-            class="sc-EHOje fOUAJN"
+            class="sc-ifAKCX fWzXiF"
           >
             <div
               class="bp3-popover-wrapper bp3-fill"
@@ -363,7 +363,7 @@ exports[`App / renders ja logged in properly 1`] = `
           style="width: 50%;"
         >
           <div
-            class="sc-hZSUBg XwgsZ"
+            class="sc-gwVKww jGtVoR"
           >
             <div>
               <h2>
@@ -427,13 +427,13 @@ exports[`App / renders unauthenticated properly 1`] = `
     class="Toastify"
   />
   <div
-    class="sc-gqPbQI hwbsHU"
+    class="sc-iuJeZd bEMbK"
   >
     <div
       class="bp3-navbar sc-bxivhb gvSyoM"
     >
       <div
-        class="sc-bwzfXH sc-EHOje GDJyz"
+        class="sc-bwzfXH sc-EHOje mfJYp"
       >
         <div
           class="bp3-navbar-group bp3-align-left"
@@ -460,7 +460,7 @@ exports[`App / renders unauthenticated properly 1`] = `
       </div>
     </div>
     <div
-      class="sc-bsbRJL fyQZoL"
+      class="sc-eTuwsz egIuoa"
     >
       <img
         alt="Arlo, by VotingWorks"
@@ -509,13 +509,13 @@ exports[`App /election/:electionId/audit-board/:auditBoardId renders aa logged i
     class="Toastify"
   />
   <div
-    class="sc-gqPbQI hwbsHU"
+    class="sc-iuJeZd bEMbK"
   >
     <div
       class="bp3-navbar sc-bxivhb gvSyoM"
     >
       <div
-        class="sc-bwzfXH sc-EHOje GDJyz"
+        class="sc-bwzfXH sc-EHOje mfJYp"
       >
         <div
           class="bp3-navbar-group bp3-align-left"
@@ -543,7 +543,7 @@ exports[`App /election/:electionId/audit-board/:auditBoardId renders aa logged i
           class="bp3-navbar-group bp3-align-right"
         >
           <div
-            class="sc-EHOje fOUAJN"
+            class="sc-ifAKCX fWzXiF"
           >
             <div
               class="bp3-popover-wrapper bp3-fill"
@@ -596,7 +596,7 @@ exports[`App /election/:electionId/audit-board/:auditBoardId renders aa logged i
           style="width: 50%;"
         >
           <div
-            class="sc-hZSUBg XwgsZ"
+            class="sc-gwVKww jGtVoR"
           >
             <div>
               <h2>
@@ -614,16 +614,16 @@ exports[`App /election/:electionId/audit-board/:auditBoardId renders aa logged i
           style="width: 50%;"
         >
           <div
-            class="sc-cMhqgX YJSjJ"
+            class="sc-hXRMBi gnGNXJ"
           >
             <h2>
               New Audit
             </h2>
             <div
-              class="sc-kAzzGY iPDebS"
+              class="sc-fjdhpX bHlbRA"
             />
             <div
-              class="sc-kAzzGY iPDebS"
+              class="sc-fjdhpX bHlbRA"
             >
               <label
                 for="auditName"
@@ -632,10 +632,10 @@ exports[`App /election/:electionId/audit-board/:auditBoardId renders aa logged i
                   Audit name
                 </p>
                 <div
-                  class="sc-esOvli tkknN sc-kAzzGY bLtYsq"
+                  class="sc-iQNlJl jSuVsI sc-kAzzGY bLtYsq"
                 >
                   <div
-                    class="bp3-input-group sc-kpOJdX eAoFAV"
+                    class="bp3-input-group sc-chPdSV PhUsl"
                   >
                     <input
                       class="bp3-input"
@@ -650,7 +650,7 @@ exports[`App /election/:electionId/audit-board/:auditBoardId renders aa logged i
               </label>
             </div>
             <div
-              class="sc-kAzzGY iPDebS"
+              class="sc-fjdhpX bHlbRA"
             >
               <label
                 for="auditType"
@@ -674,7 +674,7 @@ exports[`App /election/:electionId/audit-board/:auditBoardId renders aa logged i
                     Ballot Polling
                   </label>
                   <div
-                    class="sc-iuJeZd ktwrIZ"
+                    class="sc-epnACN gRBZkk"
                   >
                     <label
                       for="auditMathType"
@@ -756,7 +756,7 @@ exports[`App /election/:electionId/audit-board/:auditBoardId renders aa logged i
               </label>
             </div>
             <button
-              class="bp3-button bp3-fill bp3-large bp3-intent-primary sc-jTzLTM kWdIFo"
+              class="bp3-button bp3-fill bp3-large bp3-intent-primary sc-gZMcBi eZVGYn"
               type="button"
             >
               <span
@@ -779,13 +779,13 @@ exports[`App /election/:electionId/audit-board/:auditBoardId renders ab logged i
     class="Toastify"
   />
   <div
-    class="sc-gqPbQI hwbsHU"
+    class="sc-iuJeZd bEMbK"
   >
     <div
       class="bp3-navbar sc-bxivhb gvSyoM"
     >
       <div
-        class="sc-bwzfXH sc-EHOje GDJyz"
+        class="sc-bwzfXH sc-EHOje mfJYp"
       >
         <div
           class="bp3-navbar-group bp3-align-left"
@@ -808,38 +808,23 @@ exports[`App /election/:electionId/audit-board/:auditBoardId renders ab logged i
               />
             </a>
           </div>
-        </div>
-        <div
-          class="bp3-navbar-group bp3-align-left members-name"
-        >
           <div
             class="bp3-navbar-heading"
           >
-            Audit Board #2
-            :
-             
-            <strong />
+            Audit Board #1
           </div>
         </div>
         <div
           class="bp3-navbar-group bp3-align-right"
         >
-          <p
-            class="members-name"
-          >
-            Audit Board #2
-             :
-             
-            <strong />
-          </p>
-        </div>
-        <div
-          class="bp3-navbar-group bp3-align-left sc-htoDjs hRjSqG"
-        >
           <a
             href="/auth/logout"
           >
-            Sign Out
+             
+            <span>
+              Log out
+            </span>
+             
           </a>
         </div>
       </div>
@@ -848,25 +833,25 @@ exports[`App /election/:electionId/audit-board/:auditBoardId renders ab logged i
       class="sc-bdVaJa bKocXA"
     >
       <div
-        class="sc-bwzfXH sc-iQNlJl fOSFNE"
+        class="sc-bwzfXH sc-hrWEMg jFTAoe"
       >
         <div>
           <h1
             class="bp3-heading"
           >
-            Audit Board #2
+            Audit Board #1
             : Member Sign-in
           </h1>
           <p>
             Enter the information below for each member of 
             Jurisdiction 1
              
-            Audit Board #2
+            Audit Board #1
              below, then click "Next" to proceed.
           </p>
           <form>
             <div
-              class="sc-kAzzGY iPDebS"
+              class="sc-fjdhpX bHlbRA"
             >
               <h5
                 class="bp3-heading"
@@ -977,7 +962,7 @@ exports[`App /election/:electionId/audit-board/:auditBoardId renders ab logged i
               </div>
             </div>
             <div
-              class="sc-kAzzGY iPDebS"
+              class="sc-fjdhpX bHlbRA"
             >
               <h5
                 class="bp3-heading"
@@ -1088,7 +1073,7 @@ exports[`App /election/:electionId/audit-board/:auditBoardId renders ab logged i
               </div>
             </div>
             <button
-              class="bp3-button bp3-disabled bp3-intent-primary sc-jTzLTM kWdIFo"
+              class="bp3-button bp3-disabled bp3-intent-primary sc-gZMcBi eZVGYn"
               disabled=""
               tabindex="-1"
               type="button"
@@ -1113,13 +1098,13 @@ exports[`App /election/:electionId/audit-board/:auditBoardId renders ja logged i
     class="Toastify"
   />
   <div
-    class="sc-gqPbQI hwbsHU"
+    class="sc-iuJeZd bEMbK"
   >
     <div
       class="bp3-navbar sc-bxivhb gvSyoM"
     >
       <div
-        class="sc-bwzfXH sc-EHOje GDJyz"
+        class="sc-bwzfXH sc-EHOje mfJYp"
       >
         <div
           class="bp3-navbar-group bp3-align-left"
@@ -1147,7 +1132,7 @@ exports[`App /election/:electionId/audit-board/:auditBoardId renders ja logged i
           class="bp3-navbar-group bp3-align-right"
         >
           <div
-            class="sc-EHOje fOUAJN"
+            class="sc-ifAKCX fWzXiF"
           >
             <div
               class="bp3-popover-wrapper bp3-fill"
@@ -1200,7 +1185,7 @@ exports[`App /election/:electionId/audit-board/:auditBoardId renders ja logged i
           style="width: 50%;"
         >
           <div
-            class="sc-hZSUBg XwgsZ"
+            class="sc-gwVKww jGtVoR"
           >
             <div>
               <h2>
@@ -1264,13 +1249,13 @@ exports[`App /election/:electionId/audit-board/:auditBoardId renders unauthentic
     class="Toastify"
   />
   <div
-    class="sc-gqPbQI hwbsHU"
+    class="sc-iuJeZd bEMbK"
   >
     <div
       class="bp3-navbar sc-bxivhb gvSyoM"
     >
       <div
-        class="sc-bwzfXH sc-EHOje GDJyz"
+        class="sc-bwzfXH sc-EHOje mfJYp"
       >
         <div
           class="bp3-navbar-group bp3-align-left"
@@ -1297,7 +1282,7 @@ exports[`App /election/:electionId/audit-board/:auditBoardId renders unauthentic
       </div>
     </div>
     <div
-      class="sc-bsbRJL fyQZoL"
+      class="sc-eTuwsz egIuoa"
     >
       <img
         alt="Arlo, by VotingWorks"
@@ -1346,13 +1331,13 @@ exports[`App /election/:electionId/jurisdiction/:jurisdictionId renders aa logge
     class="Toastify"
   />
   <div
-    class="sc-gqPbQI hwbsHU"
+    class="sc-iuJeZd bEMbK"
   >
     <div
       class="bp3-navbar sc-bxivhb gvSyoM"
     >
       <div
-        class="sc-bwzfXH sc-EHOje GDJyz"
+        class="sc-bwzfXH sc-EHOje mfJYp"
       >
         <div
           class="bp3-navbar-group bp3-align-left"
@@ -1380,7 +1365,7 @@ exports[`App /election/:electionId/jurisdiction/:jurisdictionId renders aa logge
           class="bp3-navbar-group bp3-align-right"
         >
           <div
-            class="sc-EHOje fOUAJN"
+            class="sc-ifAKCX fWzXiF"
           >
             <div
               class="bp3-popover-wrapper bp3-fill"
@@ -1433,7 +1418,7 @@ exports[`App /election/:electionId/jurisdiction/:jurisdictionId renders aa logge
           style="width: 50%;"
         >
           <div
-            class="sc-hZSUBg XwgsZ"
+            class="sc-gwVKww jGtVoR"
           >
             <div>
               <h2>
@@ -1451,16 +1436,16 @@ exports[`App /election/:electionId/jurisdiction/:jurisdictionId renders aa logge
           style="width: 50%;"
         >
           <div
-            class="sc-cMhqgX YJSjJ"
+            class="sc-hXRMBi gnGNXJ"
           >
             <h2>
               New Audit
             </h2>
             <div
-              class="sc-kAzzGY iPDebS"
+              class="sc-fjdhpX bHlbRA"
             />
             <div
-              class="sc-kAzzGY iPDebS"
+              class="sc-fjdhpX bHlbRA"
             >
               <label
                 for="auditName"
@@ -1469,10 +1454,10 @@ exports[`App /election/:electionId/jurisdiction/:jurisdictionId renders aa logge
                   Audit name
                 </p>
                 <div
-                  class="sc-esOvli tkknN sc-kAzzGY bLtYsq"
+                  class="sc-iQNlJl jSuVsI sc-kAzzGY bLtYsq"
                 >
                   <div
-                    class="bp3-input-group sc-kpOJdX eAoFAV"
+                    class="bp3-input-group sc-chPdSV PhUsl"
                   >
                     <input
                       class="bp3-input"
@@ -1487,7 +1472,7 @@ exports[`App /election/:electionId/jurisdiction/:jurisdictionId renders aa logge
               </label>
             </div>
             <div
-              class="sc-kAzzGY iPDebS"
+              class="sc-fjdhpX bHlbRA"
             >
               <label
                 for="auditType"
@@ -1511,7 +1496,7 @@ exports[`App /election/:electionId/jurisdiction/:jurisdictionId renders aa logge
                     Ballot Polling
                   </label>
                   <div
-                    class="sc-iuJeZd ktwrIZ"
+                    class="sc-epnACN gRBZkk"
                   >
                     <label
                       for="auditMathType"
@@ -1593,7 +1578,7 @@ exports[`App /election/:electionId/jurisdiction/:jurisdictionId renders aa logge
               </label>
             </div>
             <button
-              class="bp3-button bp3-fill bp3-large bp3-intent-primary sc-jTzLTM kWdIFo"
+              class="bp3-button bp3-fill bp3-large bp3-intent-primary sc-gZMcBi eZVGYn"
               type="button"
             >
               <span
@@ -1616,13 +1601,13 @@ exports[`App /election/:electionId/jurisdiction/:jurisdictionId renders ja logge
     class="Toastify"
   />
   <div
-    class="sc-gqPbQI hwbsHU"
+    class="sc-iuJeZd bEMbK"
   >
     <div
       class="bp3-navbar sc-bxivhb gvSyoM"
     >
       <div
-        class="sc-bwzfXH sc-EHOje GDJyz"
+        class="sc-bwzfXH sc-EHOje mfJYp"
       >
         <div
           class="bp3-navbar-group bp3-align-left"
@@ -1656,7 +1641,7 @@ exports[`App /election/:electionId/jurisdiction/:jurisdictionId renders ja logge
           class="bp3-navbar-group bp3-align-right"
         >
           <div
-            class="sc-EHOje fOUAJN"
+            class="sc-ifAKCX fWzXiF"
           >
             <div
               class="bp3-popover-wrapper bp3-fill"
@@ -1703,7 +1688,7 @@ exports[`App /election/:electionId/jurisdiction/:jurisdictionId renders ja logge
       class="sc-bdVaJa bKocXA"
     >
       <div
-        class="bp3-callout sc-gPEVay bivkYG"
+        class="bp3-callout sc-cMljjf IXxXU"
       >
         <div
           class="sc-bwzfXH jiphYj"
@@ -1712,7 +1697,7 @@ exports[`App /election/:electionId/jurisdiction/:jurisdictionId renders ja logge
             class="text"
           >
             <h3
-              class="bp3-heading sc-jDwBTQ kSuPTu"
+              class="bp3-heading sc-brqgnP bTyIdG"
             >
               Test Audit
             </h3>
@@ -1728,22 +1713,22 @@ exports[`App /election/:electionId/jurisdiction/:jurisdictionId renders ja logge
         </div>
       </div>
       <div
-        class="sc-bwzfXH sc-hmzhuo hwfNhd"
+        class="sc-bwzfXH sc-kgAjT eWUQgE"
       >
         <h2
-          class="bp3-heading sc-dnqmqq dMLSzf"
+          class="bp3-heading sc-bZQynM eVSWVp"
         >
           Audit Source Data
         </h2>
         <form>
           <div
-            class="sc-fjdhpX jaSwrG"
+            class="sc-gqjmRU bpifYU"
           >
             <h2
-              class="bp3-heading sc-dnqmqq dMLSzf"
+              class="bp3-heading sc-bZQynM eVSWVp"
             />
             <div
-              class="sc-kAzzGY iPDebS"
+              class="sc-fjdhpX bHlbRA"
             >
               <h4
                 class="bp3-heading"
@@ -1751,7 +1736,7 @@ exports[`App /election/:electionId/jurisdiction/:jurisdictionId renders ja logge
                 Ballot Manifest
               </h4>
               <div
-                class="sc-chPdSV dGLcDt"
+                class="sc-jzJRlG lkbpuy"
               >
                 Click "Browse" to choose the appropriate Ballot
                 Manifest file from your computer. This file should be a
@@ -1771,7 +1756,7 @@ exports[`App /election/:electionId/jurisdiction/:jurisdictionId renders ja logge
               </div>
             </div>
             <div
-              class="sc-kAzzGY iPDebS"
+              class="sc-fjdhpX bHlbRA"
             >
               <label
                 class="bp3-file-input"
@@ -1790,7 +1775,7 @@ exports[`App /election/:electionId/jurisdiction/:jurisdictionId renders ja logge
             </div>
             <div>
               <button
-                class="bp3-button bp3-intent-primary sc-jTzLTM kWdIFo"
+                class="bp3-button bp3-intent-primary sc-gZMcBi eZVGYn"
                 type="submit"
               >
                 <span
@@ -1804,13 +1789,13 @@ exports[`App /election/:electionId/jurisdiction/:jurisdictionId renders ja logge
         </form>
         <form>
           <div
-            class="sc-fjdhpX jaSwrG"
+            class="sc-gqjmRU bpifYU"
           >
             <h2
-              class="bp3-heading sc-dnqmqq dMLSzf"
+              class="bp3-heading sc-bZQynM eVSWVp"
             />
             <div
-              class="sc-kAzzGY iPDebS"
+              class="sc-fjdhpX bHlbRA"
             >
               <h4
                 class="bp3-heading"
@@ -1818,7 +1803,7 @@ exports[`App /election/:electionId/jurisdiction/:jurisdictionId renders ja logge
                 Candidate Totals by Batch
               </h4>
               <div
-                class="sc-chPdSV dGLcDt"
+                class="sc-jzJRlG lkbpuy"
               >
                 Click "Browse" to choose the appropriate Candidate Totals by Batch file from your computer. This file should be a comma-separated list of all the ballot boxes/containers used to store ballots for this particular election, plus a count of how many votes were counted for each candidate in each of those containers.
                 <br />
@@ -1833,7 +1818,7 @@ exports[`App /election/:electionId/jurisdiction/:jurisdictionId renders ja logge
               </div>
             </div>
             <div
-              class="sc-kAzzGY iPDebS"
+              class="sc-fjdhpX bHlbRA"
             >
               <label
                 class="bp3-file-input bp3-disabled"
@@ -1853,7 +1838,7 @@ exports[`App /election/:electionId/jurisdiction/:jurisdictionId renders ja logge
             </div>
             <div>
               <button
-                class="bp3-button bp3-disabled bp3-intent-primary sc-jTzLTM kWdIFo"
+                class="bp3-button bp3-disabled bp3-intent-primary sc-gZMcBi eZVGYn"
                 disabled=""
                 tabindex="-1"
                 type="submit"
@@ -1879,13 +1864,13 @@ exports[`App /election/:electionId/jurisdiction/:jurisdictionId renders unauthen
     class="Toastify"
   />
   <div
-    class="sc-gqPbQI hwbsHU"
+    class="sc-iuJeZd bEMbK"
   >
     <div
       class="bp3-navbar sc-bxivhb gvSyoM"
     >
       <div
-        class="sc-bwzfXH sc-EHOje GDJyz"
+        class="sc-bwzfXH sc-EHOje mfJYp"
       >
         <div
           class="bp3-navbar-group bp3-align-left"
@@ -1912,7 +1897,7 @@ exports[`App /election/:electionId/jurisdiction/:jurisdictionId renders unauthen
       </div>
     </div>
     <div
-      class="sc-bsbRJL fyQZoL"
+      class="sc-eTuwsz egIuoa"
     >
       <img
         alt="Arlo, by VotingWorks"

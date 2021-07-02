@@ -10,19 +10,19 @@ exports[`DataEntry ballot interaction renders ballot route 1`] = `
         class="sc-bxivhb hMnACT"
       >
         <div
-          class="sc-eqIVtm iBmTPb"
+          class="sc-hzDkRC gVPzYn"
         >
           <div
-            class="sc-fAjcbJ hYkZyc"
+            class="sc-jhAzac joyqzP"
           >
             <div
-              class="sc-caSCKo jdQsxZ"
+              class="sc-fBuWsC bHPSMB"
             >
               <div
-                class="sc-kgAjT juwsQL"
+                class="sc-caSCKo bNtiHN"
               >
                 <button
-                  class="bp3-button bp3-minimal sc-TOsTZ NwIPA"
+                  class="bp3-button bp3-minimal sc-fAjcbJ kXjHwO"
                   href="/election/1/audit-board/audit-board-1"
                   type="button"
                 >
@@ -52,7 +52,7 @@ exports[`DataEntry ballot interaction renders ballot route 1`] = `
                   </span>
                 </button>
                 <h3
-                  class="bp3-heading sc-dVhcbM eeCuiv"
+                  class="bp3-heading sc-bRBYWo jwWDGO"
                 >
                   Audit Ballot Selections
                 </h3>
@@ -61,7 +61,7 @@ exports[`DataEntry ballot interaction renders ballot route 1`] = `
                 class="bp3-divider sc-ckVGcZ dgQdnS"
               />
               <div
-                class="sc-kjoXOD gJWPX"
+                class="sc-dVhcbM hsvMYv"
               >
                 <div>
                   <h5
@@ -70,7 +70,7 @@ exports[`DataEntry ballot interaction renders ballot route 1`] = `
                     batch
                   </h5>
                   <h4
-                    class="bp3-heading sc-cHGsZl kWlJOT"
+                    class="bp3-heading sc-eqIVtm herKMF"
                   >
                     0003-04-Precinct 19 (Jonesboro Fire Department)
                   </h4>
@@ -82,7 +82,7 @@ exports[`DataEntry ballot interaction renders ballot route 1`] = `
                     position
                   </h5>
                   <h4
-                    class="bp3-heading sc-cHGsZl kWlJOT"
+                    class="bp3-heading sc-eqIVtm herKMF"
                   >
                     2112
                   </h4>
@@ -94,14 +94,14 @@ exports[`DataEntry ballot interaction renders ballot route 1`] = `
                     tabulator
                   </h5>
                   <h4
-                    class="bp3-heading sc-cHGsZl kWlJOT"
+                    class="bp3-heading sc-eqIVtm herKMF"
                   >
                     11
                   </h4>
                 </div>
                 <div>
                   <button
-                    class="bp3-button bp3-large bp3-intent-danger sc-cJSrbW gkJUvS"
+                    class="bp3-button bp3-large bp3-intent-danger sc-gisBJw lnGrEx"
                     type="button"
                   >
                     <span
@@ -320,7 +320,9 @@ exports[`DataEntry ballot interaction renders ballot route 1`] = `
                         class="sc-kEYyzF hgMwhC"
                       >
                         <button
-                          class="bp3-button bp3-large bp3-intent-success sc-Rmtcm gwMGjf sc-dxgOiQ iagcVQ"
+                          class="bp3-button bp3-disabled bp3-large bp3-intent-success sc-Rmtcm gwMGjf sc-dxgOiQ iagcVQ"
+                          disabled=""
+                          tabindex="-1"
                           type="submit"
                         >
                           <span
@@ -346,7 +348,7 @@ exports[`DataEntry ballot interaction renders ballot route 1`] = `
               </div>
             </div>
             <div
-              class="sc-gisBJw czZWPZ"
+              class="sc-fMiknA cVdEgP"
             >
               <h4
                 class="bp3-heading"
@@ -354,7 +356,7 @@ exports[`DataEntry ballot interaction renders ballot route 1`] = `
                 Instructions
               </h4>
               <ol
-                class="bp3-list sc-ksYbfQ djGxGZ"
+                class="bp3-list sc-kjoXOD ilvKfD"
               >
                 <li>
                   Confirm that you are looking at the correct ballot for the batch and position. If the ballot was not located, select
@@ -2613,7 +2615,7 @@ exports[`DataEntry ballot interaction renders board table with ballots 1`] = `
                 Audit each ballot by indicating the votes you see marked.
               </li>
               <li>
-                Once all ballots are audited, Submit audited ballots. Once results are submitted, no further edits can be made.
+                Once all ballots are audited, click Submit Audited Ballots. Once results are submitted, no further edits can be made.
               </li>
             </ol>
           </div>
@@ -2886,7 +2888,7 @@ exports[`DataEntry ballot interaction renders board table with no ballots 1`] = 
                 Audit each ballot by indicating the votes you see marked.
               </li>
               <li>
-                Once all ballots are audited, Submit audited ballots. Once results are submitted, no further edits can be made.
+                Once all ballots are audited, click Submit Audited Ballots. Once results are submitted, no further edits can be made.
               </li>
             </ol>
           </div>
@@ -4738,7 +4740,7 @@ exports[`DataEntry ballot interaction renders board table with not audited ballo
                 Audit each ballot by indicating the votes you see marked.
               </li>
               <li>
-                Once all ballots are audited, Submit audited ballots. Once results are submitted, no further edits can be made.
+                Once all ballots are audited, click Submit Audited Ballots. Once results are submitted, no further edits can be made.
               </li>
             </ol>
           </div>
@@ -6968,7 +6970,7 @@ exports[`DataEntry member form submits and goes to ballot table 1`] = `
                 Audit each ballot by indicating the votes you see marked.
               </li>
               <li>
-                Once all ballots are audited, Submit audited ballots. Once results are submitted, no further edits can be made.
+                Once all ballots are audited, click Submit Audited Ballots. Once results are submitted, no further edits can be made.
               </li>
             </ol>
           </div>
