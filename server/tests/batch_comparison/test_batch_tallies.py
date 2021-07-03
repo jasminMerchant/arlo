@@ -42,14 +42,20 @@ def test_batch_tallies_upload(
     contest_id: str,
     manifests,  # pylint: disable=unused-argument
 ):
+    set_logged_in_user(client, UserType.AUDIT_ADMIN, DEFAULT_AA_EMAIL)
+    rv = client.get(f"/api/election/{election_id}/jurisdiction")
+    assert rv.status_code == 200
+    jurisdictions = json.loads(rv.data)["jurisdictions"]
+    assert jurisdictions[0]["batchTallies"]["numBallots"] is None
+
     set_logged_in_user(
         client, UserType.JURISDICTION_ADMIN, default_ja_email(election_id)
     )
     batch_tallies_file = (
         b"Batch Name,candidate 1,candidate 2,candidate 3\n"
+        b"Batch 3,3,30,300\n"
         b"Batch 1,1,10,100\n"
         b"Batch 2,2,20,200\n"
-        b"Batch 3,3,30,300\n"
     )
     rv = client.put(
         f"/api/election/{election_id}/jurisdiction/{jurisdiction_ids[0]}/batch-tallies",
@@ -135,6 +141,7 @@ def test_batch_tallies_upload(
                 "completedAt": assert_is_date,
                 "error": None,
             },
+            "numBallots": (111 + 222 + 333) / 2,
         },
     )
 
@@ -323,25 +330,15 @@ def test_batch_tallies_upload_bad_csv(
         f"/api/election/{election_id}/jurisdiction/{jurisdiction_ids[0]}/batch-tallies",
         data={"batchTallies": (io.BytesIO(b"not a CSV file"), "random.txt")},
     )
-    assert_ok(rv)
-
-    bgcompute_update_batch_tallies_file(election_id)
-
-    rv = client.get(
-        f"/api/election/{election_id}/jurisdiction/{jurisdiction_ids[0]}/batch-tallies"
-    )
-    compare_json(
-        json.loads(rv.data),
-        {
-            "file": {"name": "random.txt", "uploadedAt": assert_is_date,},
-            "processing": {
-                "status": ProcessingStatus.ERRORED,
-                "startedAt": assert_is_date,
-                "completedAt": assert_is_date,
-                "error": "Please submit a valid CSV file with columns separated by commas.",
-            },
-        },
-    )
+    assert rv.status_code == 400
+    assert json.loads(rv.data) == {
+        "errors": [
+            {
+                "errorType": "Bad Request",
+                "message": "Please submit a valid CSV. If you are working with an Excel spreadsheet, make sure you export it as a .csv file before uploading",
+            }
+        ]
+    }
 
 
 def test_batch_tallies_upload_missing_choice(
@@ -477,9 +474,9 @@ def test_batch_tallies_too_many_tallies(
             "batchTallies": (
                 io.BytesIO(
                     b"Batch Name,candidate 1,candidate 2,candidate 3\n"
+                    b"Batch 3,3,30,300\n"
                     b"Batch 1,300,10,100\n"
                     b"Batch 2,2,20,200\n"
-                    b"Batch 3,3,30,300\n"
                 ),
                 "batchTallies.csv",
             )
@@ -634,9 +631,9 @@ def test_batch_tallies_reprocess_after_manifest_reupload(
             "batchTallies": (
                 io.BytesIO(
                     b"Batch Name,candidate 1,candidate 2,candidate 3\n"
+                    b"Batch 3,3,30,300\n"
                     b"Batch 1,1,10,100\n"
                     b"Batch 2,2,20,200\n"
-                    b"Batch 3,3,30,300\n"
                 ),
                 "batchTallies.csv",
             )

@@ -19,6 +19,17 @@ def test_cvr_upload(
     manifests,  # pylint: disable=unused-argument
     snapshot,
 ):
+    # Test that the AA jurisdictions list includes empty CVRs
+    set_logged_in_user(client, UserType.AUDIT_ADMIN, DEFAULT_AA_EMAIL)
+    rv = client.get(f"/api/election/{election_id}/jurisdiction")
+    assert rv.status_code == 200
+    jurisdictions = json.loads(rv.data)["jurisdictions"]
+    compare_json(
+        jurisdictions[0]["cvrs"],
+        {"file": None, "processing": None, "numBallots": None,},
+    )
+
+    # Upload CVRs
     set_logged_in_user(
         client, UserType.JURISDICTION_ADMIN, default_ja_email(election_id)
     )
@@ -44,8 +55,17 @@ def test_cvr_upload(
         },
     )
 
+    set_logged_in_user(client, UserType.AUDIT_ADMIN, DEFAULT_AA_EMAIL)
+    rv = client.get(f"/api/election/{election_id}/jurisdiction")
+    assert rv.status_code == 200
+    jurisdictions = json.loads(rv.data)["jurisdictions"]
+    assert jurisdictions[0]["cvrs"]["numBallots"] is None
+
     bgcompute_update_cvr_file(election_id)
 
+    set_logged_in_user(
+        client, UserType.JURISDICTION_ADMIN, default_ja_email(election_id)
+    )
     rv = client.get(
         f"/api/election/{election_id}/jurisdiction/{jurisdiction_ids[0]}/cvrs"
     )
@@ -62,13 +82,15 @@ def test_cvr_upload(
         },
     )
 
+    expected_num_cvr_ballots = len(TEST_CVRS.splitlines()) - 4
+
     cvr_ballots = (
         CvrBallot.query.join(Batch)
         .filter_by(jurisdiction_id=jurisdiction_ids[0])
         .order_by(CvrBallot.imprinted_id)
         .all()
     )
-    assert len(cvr_ballots) == len(TEST_CVRS.splitlines()) - 4
+    assert len(cvr_ballots) == expected_num_cvr_ballots
     snapshot.assert_match(
         [
             dict(
@@ -100,6 +122,7 @@ def test_cvr_upload(
                 "completedAt": assert_is_date,
                 "error": None,
             },
+            "numBallots": expected_num_cvr_ballots,
         },
     )
 
@@ -322,25 +345,15 @@ def test_cvrs_upload_bad_csv(
         f"/api/election/{election_id}/jurisdiction/{jurisdiction_ids[0]}/cvrs",
         data={"cvrs": (io.BytesIO(b"not a CSV file"), "random.txt")},
     )
-    assert_ok(rv)
-
-    bgcompute_update_cvr_file(election_id)
-
-    rv = client.get(
-        f"/api/election/{election_id}/jurisdiction/{jurisdiction_ids[0]}/cvrs"
-    )
-    compare_json(
-        json.loads(rv.data),
-        {
-            "file": {"name": "random.txt", "uploadedAt": assert_is_date,},
-            "processing": {
-                "status": ProcessingStatus.ERRORED,
-                "startedAt": assert_is_date,
-                "completedAt": assert_is_date,
-                "error": "Could not parse CVR file",
-            },
-        },
-    )
+    assert rv.status_code == 400
+    assert json.loads(rv.data) == {
+        "errors": [
+            {
+                "errorType": "Bad Request",
+                "message": "Please submit a valid CSV. If you are working with an Excel spreadsheet, make sure you export it as a .csv file before uploading",
+            }
+        ]
+    }
 
 
 def test_cvrs_wrong_audit_type(
@@ -594,9 +607,9 @@ def test_cvr_reprocess_after_manifest_reupload(
             "manifest": (
                 io.BytesIO(
                     b"Tabulator,Batch Name,Number of Ballots\n"
+                    b"TABULATOR2,BATCH2,6\n"
                     b"TABULATOR1,BATCH1,3\n"
-                    b"TABULATOR1,BATCH2,3\n"
-                    b"TABULATOR2,BATCH2,6"
+                    b"TABULATOR1,BATCH2,3"
                 ),
                 "manifest.csv",
             )

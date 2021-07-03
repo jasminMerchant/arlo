@@ -4,7 +4,7 @@ from flask.testing import FlaskClient
 
 from ...models import *  # pylint: disable=wildcard-import
 from ...worker.bgcompute import bgcompute_update_election_jurisdictions_file
-from ..helpers import assert_ok
+from ..helpers import *  # pylint: disable=wildcard-import
 
 
 def test_missing_file(client: FlaskClient, election_id: str):
@@ -13,8 +13,8 @@ def test_missing_file(client: FlaskClient, election_id: str):
     assert json.loads(rv.data) == {
         "errors": [
             {
-                "message": 'Expected file parameter "jurisdictions" was missing',
-                "errorType": "MissingFile",
+                "message": "Missing required file parameter 'jurisdictions'",
+                "errorType": "Bad Request",
             }
         ]
     }
@@ -29,15 +29,9 @@ def test_bad_csv_file(client: FlaskClient, election_id: str):
     assert json.loads(rv.data) == {
         "errors": [
             {
-                "message": 'Missing required CSV field "Jurisdiction"',
-                "errorType": "MissingRequiredCsvField",
-                "fieldName": "Jurisdiction",
-            },
-            {
-                "message": 'Missing required CSV field "Admin Email"',
-                "errorType": "MissingRequiredCsvField",
-                "fieldName": "Admin Email",
-            },
+                "message": "Please submit a valid CSV. If you are working with an Excel spreadsheet, make sure you export it as a .csv file before uploading",
+                "errorType": "Bad Request",
+            }
         ]
     }
 
@@ -52,16 +46,23 @@ def test_missing_one_csv_field(client, election_id):
             )
         },
     )
-    assert rv.status_code == 400
-    assert json.loads(rv.data) == {
-        "errors": [
-            {
-                "message": 'Missing required CSV field "Admin Email"',
-                "errorType": "MissingRequiredCsvField",
-                "fieldName": "Admin Email",
-            }
-        ]
-    }
+    assert_ok(rv)
+
+    bgcompute_update_election_jurisdictions_file(election_id)
+
+    rv = client.get(f"/api/election/{election_id}/jurisdiction/file")
+    compare_json(
+        json.loads(rv.data),
+        {
+            "file": {"name": "jurisdictions.csv", "uploadedAt": assert_is_date},
+            "processing": {
+                "status": ProcessingStatus.ERRORED,
+                "startedAt": assert_is_date,
+                "completedAt": assert_is_date,
+                "error": "Missing required column: Admin Email.",
+            },
+        },
+    )
 
 
 def test_metadata(client, election_id):
@@ -306,3 +307,38 @@ def test_upload_jurisdictions_file_after_audit_starts(
             }
         ]
     }
+
+
+def test_upload_jurisdictions_file_duplicate_row(
+    client: FlaskClient, election_id: str,
+):
+    rv = client.put(
+        f"/api/election/{election_id}/jurisdiction/file",
+        data={
+            "jurisdictions": (
+                io.BytesIO(
+                    b"Jurisdiction,Admin Email\n"
+                    b"J1,j1@example.com\n"
+                    b"J1,j1@example.com"
+                ),
+                "jurisdictions.csv",
+            )
+        },
+    )
+    assert_ok(rv)
+
+    bgcompute_update_election_jurisdictions_file(election_id)
+
+    rv = client.get(f"/api/election/{election_id}/jurisdiction/file")
+    compare_json(
+        json.loads(rv.data),
+        {
+            "file": {"name": "jurisdictions.csv", "uploadedAt": assert_is_date},
+            "processing": {
+                "status": ProcessingStatus.ERRORED,
+                "startedAt": assert_is_date,
+                "completedAt": assert_is_date,
+                "error": "Each row must be uniquely identified by ('Admin Email', 'Jurisdiction'). Found duplicate: ('j1@example.com', 'J1').",
+            },
+        },
+    )

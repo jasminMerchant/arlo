@@ -26,6 +26,7 @@ from ..util.csv_download import csv_response
 from ..util.csv_parse import decode_csv_file
 from ..util.group_by import group_by
 from ..audit_math.suite import HybridPair
+from ..activity_log.activity_log import UploadFile, activity_base, record_activity
 
 
 class CvrChoiceMetadata(TypedDict):
@@ -402,6 +403,18 @@ def process_cvr_file(session: Session, jurisdiction: Jurisdiction, file: File):
 
     process_file(session, file, process_catch_exceptions)
 
+    assert file.processing_started_at
+    record_activity(
+        UploadFile(
+            timestamp=file.processing_started_at,
+            base=activity_base(jurisdiction.election),
+            jurisdiction_id=jurisdiction.id,
+            jurisdiction_name=jurisdiction.name,
+            file_type="cvrs",
+            error=file.processing_error,
+        )
+    )
+
 
 # Raises if invalid
 def validate_cvr_upload(
@@ -420,7 +433,7 @@ def validate_cvr_upload(
 # We save the CVR file, and bgcompute finds it and processes it in
 # the background.
 def save_cvr_file(cvr, jurisdiction: Jurisdiction):
-    cvr_string = decode_csv_file(cvr.read())
+    cvr_string = decode_csv_file(cvr)
     jurisdiction.cvr_file = File(
         id=str(uuid.uuid4()),
         name=cvr.filename,

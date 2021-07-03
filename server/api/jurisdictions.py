@@ -1,19 +1,19 @@
-from typing import Dict, Optional, Mapping
+from typing import Dict, Optional, Mapping, cast as typing_cast
 import enum
 import uuid
 import datetime
-import csv
-import io
+import math
 from flask import jsonify, request
 from sqlalchemy import func
 from sqlalchemy.orm import joinedload
-from werkzeug.exceptions import Conflict
+from werkzeug.exceptions import Conflict, BadRequest
 
 from . import api
 from ..models import *  # pylint: disable=wildcard-import
 from ..database import db_session
 from ..auth import restrict_access, UserType
 from .rounds import get_current_round, sampled_all_ballots
+from .ballot_manifest import hybrid_jurisdiction_total_ballots
 from ..util.process_file import serialize_file, serialize_file_processing
 from ..util.jsonschema import JSONDict
 from ..util.csv_parse import decode_csv_file
@@ -23,7 +23,7 @@ from ..util.csv_download import csv_response
 def serialize_jurisdiction(
     election: Election, jurisdiction: Jurisdiction, round_status: Optional[JSONDict]
 ) -> JSONDict:
-    json_jurisdiction = {
+    json_jurisdiction: JSONDict = {
         "id": jurisdiction.id,
         "name": jurisdiction.name,
         "ballotManifest": {
@@ -34,16 +34,58 @@ def serialize_jurisdiction(
         },
         "currentRoundStatus": round_status,
     }
+
     if election.audit_type == AuditType.BATCH_COMPARISON:
+        num_ballots = None
+        if jurisdiction.batch_tallies and len(list(election.contests)) == 1:
+            contest = list(election.contests)[0]
+            assert contest.votes_allowed
+            num_ballots = math.ceil(
+                sum(
+                    tally[contest.id][choice.id]
+                    for tally in typing_cast(
+                        JSONDict, jurisdiction.batch_tallies
+                    ).values()
+                    for choice in contest.choices
+                )
+                / contest.votes_allowed
+            )
         json_jurisdiction["batchTallies"] = {
             "file": serialize_file(jurisdiction.batch_tallies_file),
             "processing": serialize_file_processing(jurisdiction.batch_tallies_file),
+            "numBallots": num_ballots,
         }
+
     if election.audit_type in [AuditType.BALLOT_COMPARISON, AuditType.HYBRID]:
+        processing = serialize_file_processing(jurisdiction.cvr_file)
+        num_cvr_ballots = (
+            CvrBallot.query.join(Batch)
+            .filter_by(jurisdiction_id=jurisdiction.id)
+            .count()
+            if processing and processing["status"] == ProcessingStatus.PROCESSED
+            else None
+        )
         json_jurisdiction["cvrs"] = {
             "file": serialize_file(jurisdiction.cvr_file),
             "processing": serialize_file_processing(jurisdiction.cvr_file),
+            "numBallots": num_cvr_ballots,
         }
+
+    if election.audit_type == AuditType.HYBRID:
+        ballot_counts = (
+            hybrid_jurisdiction_total_ballots(jurisdiction)
+            if json_jurisdiction["ballotManifest"]["processing"]
+            and json_jurisdiction["ballotManifest"]["processing"]["status"]
+            == ProcessingStatus.PROCESSED
+            else None
+        )
+        json_jurisdiction["ballotManifest"]["numBallotsCvr"] = (
+            ballot_counts and ballot_counts.cvr
+        )
+        json_jurisdiction["ballotManifest"]["numBallotsNonCvr"] = (
+            ballot_counts and ballot_counts.non_cvr
+        )
+
     return json_jurisdiction
 
 
@@ -384,57 +426,16 @@ def update_jurisdictions_file(election: Election):
         raise Conflict("Cannot update jurisdictions after audit has started.")
 
     if "jurisdictions" not in request.files:
-        return (
-            jsonify(
-                errors=[
-                    {
-                        "message": 'Expected file parameter "jurisdictions" was missing',
-                        "errorType": "MissingFile",
-                    }
-                ]
-            ),
-            400,
-        )
+        raise BadRequest("Missing required file parameter 'jurisdictions'")
 
     jurisdictions_file = request.files["jurisdictions"]
-    jurisdictions_file_string = decode_csv_file(jurisdictions_file.read())
-
-    old_jurisdictions_file = election.jurisdictions_file
     election.jurisdictions_file = File(
         id=str(uuid.uuid4()),
         name=jurisdictions_file.filename,
-        contents=jurisdictions_file_string,
+        contents=decode_csv_file(jurisdictions_file),
         uploaded_at=datetime.datetime.now(timezone.utc),
     )
 
-    jurisdictions_csv = csv.DictReader(
-        io.StringIO(jurisdictions_file_string, newline=None)
-    )
-
-    missing_fields = [
-        field
-        for field in [JURISDICTION_NAME, ADMIN_EMAIL]
-        if field not in (jurisdictions_csv.fieldnames or [])
-    ]
-
-    if missing_fields:
-        return (
-            jsonify(
-                errors=[
-                    {
-                        "message": f'Missing required CSV field "{field}"',
-                        "errorType": "MissingRequiredCsvField",
-                        "fieldName": field,
-                    }
-                    for field in missing_fields
-                ]
-            ),
-            400,
-        )
-
-    if old_jurisdictions_file:
-        db_session.delete(old_jurisdictions_file)
-    db_session.add(election)
     db_session.commit()
 
     return jsonify(status="ok")

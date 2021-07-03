@@ -18,22 +18,6 @@ describe('Batch Comparison', () => {
     cy.viewport(1000, 2000)
     cy.contains('Audit Setup')
 
-    // upload invalid jurisdiction filesheet
-    cy.fixture(
-      'CSVs/jurisdiction/sample_jurisdiction_filesheet_jurisdiction_col_error.csv'
-    ).then(fileContent => {
-      cy.get('input[type="file"]')
-        .first()
-        .attachFile({
-          fileContent: fileContent.toString(),
-          fileName: 'sample_jurisdiction_filesheet_jurisdiction_col_error.csv',
-          mimeType: 'csv',
-        })
-    })
-    cy.findByText('Upload File').click({ force: true })
-    cy.findAndCloseToast('Missing required CSV field "Jurisdiction"')
-
-    // upload valid jurisdiction filesheet
     cy.fixture('CSVs/jurisdiction/sample_jurisdiction_filesheet.csv').then(
       fileContent => {
         cy.get('input[type="file"]')
@@ -41,7 +25,7 @@ describe('Batch Comparison', () => {
           .attachFile({
             fileContent: fileContent.toString(),
             fileName: 'sample_jurisdiction_filesheet.csv',
-            mimeType: 'csv',
+            mimeType: 'text/csv',
           })
       }
     )
@@ -78,7 +62,7 @@ describe('Batch Comparison', () => {
           .attachFile({
             fileContent: fileContent.toString(),
             fileName: 'batch_comparison_manifest_col_error.csv',
-            mimeType: 'csv',
+            mimeType: 'text/csv',
           })
       }
     )
@@ -97,7 +81,7 @@ describe('Batch Comparison', () => {
           .attachFile({
             fileContent: fileContent.toString(),
             fileName: 'batch_comparison_manifest.csv',
-            mimeType: 'csv',
+            mimeType: 'text/csv',
           })
       }
     )
@@ -115,7 +99,7 @@ describe('Batch Comparison', () => {
         .attachFile({
           fileContent: fileContent.toString(),
           fileName: 'sample_candidate_totals_by_batch_col_error.csv',
-          mimeType: 'csv',
+          mimeType: 'text/csv',
         })
     })
     cy.findAllByText('Upload File')
@@ -135,7 +119,7 @@ describe('Batch Comparison', () => {
         .attachFile({
           fileContent: fileContent.toString(),
           fileName: 'sample_candidate_totals_by_batch.csv',
-          mimeType: 'csv',
+          mimeType: 'text/csv',
         })
     })
     cy.findAllByText('Upload File').click()
@@ -159,25 +143,41 @@ describe('Batch Comparison', () => {
     cy.get('.bp3-card')
       .eq('0')
       .findByLabelText('Votes for Vader:')
-      .type('600')
+      .type('90')
     cy.get('.bp3-card')
       .eq('0')
       .findByLabelText('Votes for Palpatine:')
-      .type('400')
+      .type('10')
     cy.get('.bp3-card')
       .eq('1')
       .findByLabelText('Votes for Vader:')
-      .type('1000')
+      .type('10')
     cy.get('.bp3-card')
       .eq('1')
       .findByLabelText('Votes for Palpatine:')
-      .type('200')
+      .type('10')
     cy.get('.bp3-card')
       .eq('2')
       .findByLabelText('Votes for Vader:')
-      .type('1000')
+      .type('600')
     cy.get('.bp3-card')
       .eq('2')
+      .findByLabelText('Votes for Palpatine:')
+      .type('400')
+    cy.get('.bp3-card')
+      .eq('3')
+      .findByLabelText('Votes for Vader:')
+      .type('1000')
+    cy.get('.bp3-card')
+      .eq('3')
+      .findByLabelText('Votes for Palpatine:')
+      .type('200')
+    cy.get('.bp3-card')
+      .eq('4')
+      .findByLabelText('Votes for Vader:')
+      .type('1000')
+    cy.get('.bp3-card')
+      .eq('4')
       .findByLabelText('Votes for Palpatine:')
       .type('2000')
     cy.findByText('Submit Data for Round 1').click()

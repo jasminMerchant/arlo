@@ -10,6 +10,7 @@ import jurisdictionFile, {
   jurisdictionErrorFile,
   standardizedContestsFile,
 } from './AASetup/Participants/_mocks'
+import { IBatch } from './RoundManagement/useBatchResults'
 
 const jurisdictionFormData: FormData = new FormData()
 jurisdictionFormData.append(
@@ -72,6 +73,7 @@ export const jaApiCalls = {
               electionName: 'election one',
               state: 'AL',
             },
+            numBallots: 100,
           },
           {
             id: 'jurisdiction-id-2',
@@ -82,6 +84,7 @@ export const jaApiCalls = {
               electionName: 'election two',
               state: 'AL',
             },
+            numBallots: 200,
           },
           {
             id: 'jurisdiction-id-3',
@@ -92,6 +95,7 @@ export const jaApiCalls = {
               electionName: 'election one',
               state: 'AL',
             },
+            numBallots: 300,
           },
         ],
         organizations: [],
@@ -136,10 +140,10 @@ export const jaApiCalls = {
       supportUser: null,
     },
   },
-  getRounds: {
+  getRounds: (rounds: IRound[]) => ({
     url: '/api/election/1/jurisdiction/jurisdiction-id-1/round',
-    response: { rounds: [] },
-  },
+    response: { rounds },
+  }),
   getBallotManifestFile: (response: IFileInfo) => ({
     url: '/api/election/1/jurisdiction/jurisdiction-id-1/ballot-manifest',
     response,
@@ -193,6 +197,10 @@ export const jaApiCalls = {
     url:
       '/api/election/1/jurisdiction/jurisdiction-id-1/round/round-1/ballots?count=true',
     response: { count: ballots.length },
+  }),
+  getBatches: (batches: IBatch[]) => ({
+    url: '/api/election/1/jurisdiction/jurisdiction-id-1/round/round-1/batches',
+    response: { batches },
   }),
   deleteManifest: {
     url: '/api/election/1/jurisdiction/jurisdiction-id-1/ballot-manifest',
@@ -303,13 +311,23 @@ export const aaApiCalls = {
         {
           id: 'jurisdiction-id-1',
           name: 'Jurisdiction One',
-          ballotManifest: { file: null, processing: null },
+          ballotManifest: {
+            file: null,
+            processing: null,
+            numBallots: null,
+            numBatches: null,
+          },
           currentRoundStatus: null,
         },
         {
           id: 'jurisdiction-id-2',
           name: 'Jurisdiction Two',
-          ballotManifest: { file: null, processing: null },
+          ballotManifest: {
+            file: null,
+            processing: null,
+            numBallots: null,
+            numBatches: null,
+          },
           currentRoundStatus: null,
         },
       ],
@@ -322,15 +340,25 @@ export const aaApiCalls = {
         {
           id: 'jurisdiction-id-1',
           name: 'Jurisdiction One',
-          ballotManifest: { file: null, processing: null },
-          batchTallies: { file: null, processing: null },
+          ballotManifest: {
+            file: null,
+            processing: null,
+            numBallots: null,
+            numBatches: null,
+          },
+          batchTallies: { file: null, processing: null, numBallots: null },
           currentRoundStatus: null,
         },
         {
           id: 'jurisdiction-id-2',
           name: 'Jurisdiction Two',
-          ballotManifest: { file: null, processing: null },
-          batchTallies: { file: null, processing: null },
+          ballotManifest: {
+            file: null,
+            processing: null,
+            numBallots: null,
+            numBatches: null,
+          },
+          batchTallies: { file: null, processing: null, numBallots: null },
           currentRoundStatus: null,
         },
       ],

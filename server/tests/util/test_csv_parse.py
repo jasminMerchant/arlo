@@ -1,6 +1,7 @@
 from typing import Union, List
 import os, io, pytest
 from werkzeug.exceptions import BadRequest
+from werkzeug.datastructures import FileStorage
 from ...util.jurisdiction_bulk_update import JURISDICTIONS_COLUMNS
 from ...util.csv_parse import (
     parse_csv,
@@ -336,6 +337,7 @@ def test_parse_csv_total_row():
         "Total Ballots",
         "total ballots",
         "COUNTY TOTALS",
+        "subtotal",
     ]:
         with pytest.raises(CSVParseError) as error:
             list(
@@ -349,7 +351,29 @@ def test_parse_csv_total_row():
                     BALLOT_MANIFEST_COLUMNS,
                 )
             )
-    assert str(error.value) == "Remove total row (row 4)"
+        assert (
+            str(error.value)
+            == "It looks like you might have a total row (row 4). Please remove this row from the CSV."
+        )
+
+    with pytest.raises(CSVParseError) as error:
+        list(
+            parse_csv(
+                (
+                    "Batch Name,Number of Ballots\n"
+                    "Batch A,20\n"
+                    "Batch B,30\n"
+                    "Batch C,40\n"
+                    "XXX,90\n"
+                    ","
+                ),
+                BALLOT_MANIFEST_COLUMNS,
+            )
+        )
+    assert (
+        str(error.value)
+        == "It looks like the last row in the CSV might be a total row. Please remove this row from the CSV."
+    )
 
 
 # Cases where we are lenient
@@ -627,7 +651,7 @@ Center Twp,,,180
 91-FERGUSON NORTH CENTRAL,373
 Totals,"32,990"
 """,
-        "Remove total row (row 89)",
+        "It looks like you might have a total row (row 89). Please remove this row from the CSV.",
         BALLOT_MANIFEST_COLUMNS,
     ),
 ]
@@ -851,7 +875,7 @@ City of Petersburg #1,203,,
 def test_parse_csv_real_world_examples():
     def do_parse(csv: Union[str, bytes], columns: List[CSVColumnType]) -> list:
         if isinstance(csv, bytes):
-            csv = decode_csv_file(csv)
+            csv = decode_csv_file(FileStorage(io.BytesIO(csv), content_type="text/csv"))
         return list(parse_csv(csv, columns))
 
     for (csv, expected_error, columns) in REAL_WORLD_REJECTED_CSVS:
@@ -864,15 +888,58 @@ def test_parse_csv_real_world_examples():
         assert len(parsed) == expected_rows
 
 
+def test_decode_windows_csv_mimetype():
+    assert (
+        decode_csv_file(
+            FileStorage(io.BytesIO(b"a,b,c"), content_type="application/vnd.ms-excel")
+        )
+        == "a,b,c"
+    )
+
+
 def test_decode_excel_file():
     excel_file_path = os.path.join(
         os.path.dirname(__file__), "test-ballot-manifest.xlsx"
     )
     with open(excel_file_path, "rb") as excel_file:
         with pytest.raises(BadRequest) as error:
-            decode_csv_file(excel_file.read())
+            decode_csv_file(
+                FileStorage(
+                    excel_file,
+                    content_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+                )
+            )
         assert error.value.description == (
             "Please submit a valid CSV."
             " If you are working with an Excel spreadsheet,"
             " make sure you export it as a .csv file before uploading"
         )
+
+
+def test_decode_pdf_file():
+    with pytest.raises(BadRequest) as error:
+        decode_csv_file(
+            FileStorage(
+                io.BytesIO(
+                    b"%PDF-1.4\r%\xe2\xe3\xcf\xd3\r\n7222 0 obj\r<</Linearized 1/L 10747310/O 7225/E 11059/N 2320/T 10602748/H [ 616 3649]>>\rendobj\r    \r\nxref\r\n7222 16\r\n0000000016 00000 n\r\n0000004265 00000 n\r\n0000004349 00000 n\r\n0000004387 00000 n\r\n0000004657 00000 n\r\n0000004748 00000 n\r\n0000005220 00000 n\r\n0000005380 00000 n\r\n0000006551 00000 n\r\n0000007201 00000 n\r\n0000007850 00000 n\r\n0000008480 00000 n\r\n0000009139 00000 n\r\n0000009801 00000 n\r\n0000010446 00000 n\r\n0000000616 00000 n\r\n"
+                ),
+                content_type="application/pdf",
+            )
+        )
+    assert error.value.description == (
+        "Please submit a valid CSV."
+        " If you are working with an Excel spreadsheet,"
+        " make sure you export it as a .csv file before uploading"
+    )
+
+
+def test_decode_cant_detect_encoding():
+    undetectable_file_path = os.path.join(os.path.dirname(__file__), "undetectable.pdf")
+    with open(undetectable_file_path, "rb") as file:
+        with pytest.raises(BadRequest) as error:
+            decode_csv_file(FileStorage(file, content_type="text/csv",))
+    assert error.value.description == (
+        "Please submit a valid CSV."
+        " If you are working with an Excel spreadsheet,"
+        " make sure you export it as a .csv file before uploading"
+    )

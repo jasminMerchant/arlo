@@ -227,7 +227,7 @@ const Ballot: React.FC<IProps> = ({
     newInterpretations: IBallotInterpretation[]
   ) => {
     setInterpretations(newInterpretations)
-    initiateConfirm(false)
+    initiateConfirm(true)
   }
 
   const submitNotFound = async () => {

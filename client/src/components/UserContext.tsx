@@ -69,7 +69,7 @@ export interface ISupportUser {
 export interface IAuthData {
   user: IUser | null
   supportUser: ISupportUser | null
-  setAuthData: (user: IAuthData | null) => {}
+  setAuthData: (arg0: IAuthData) => void
 }
 
 const AuthDataContext = createContext<IAuthData | null>(null)

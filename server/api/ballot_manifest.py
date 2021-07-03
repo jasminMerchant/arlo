@@ -19,6 +19,7 @@ from ..util.csv_parse import decode_csv_file, parse_csv, CSVValueType, CSVColumn
 from ..audit_math.suite import HybridPair
 from .cvrs import process_cvr_file
 from .batch_tallies import process_batch_tallies_file
+from ..activity_log.activity_log import UploadFile, activity_base, record_activity
 
 logger = logging.getLogger("arlo")
 
@@ -50,6 +51,17 @@ def hybrid_contest_total_ballots(contest: Contest) -> HybridPair:
         Contest.query.filter_by(id=contest.id)
         .join(Contest.jurisdictions)
         .join(Batch)
+        .group_by(Batch.has_cvrs)
+        .values(Batch.has_cvrs, func.sum(Batch.num_ballots))
+    )
+    return HybridPair(
+        cvr=total_ballots.get(True, 0), non_cvr=total_ballots.get(False, 0)
+    )
+
+
+def hybrid_jurisdiction_total_ballots(jurisdiction: Jurisdiction) -> HybridPair:
+    total_ballots = dict(
+        Batch.query.filter_by(jurisdiction_id=jurisdiction.id)
         .group_by(Batch.has_cvrs)
         .values(Batch.has_cvrs, func.sum(Batch.num_ballots))
     )
@@ -115,6 +127,18 @@ def process_ballot_manifest_file(
 
     process_file(session, file, process)
 
+    assert file.processing_started_at
+    record_activity(
+        UploadFile(
+            timestamp=file.processing_started_at,
+            base=activity_base(jurisdiction.election),
+            jurisdiction_id=jurisdiction.id,
+            jurisdiction_name=jurisdiction.name,
+            file_type="ballot_manifest",
+            error=file.processing_error,
+        )
+    )
+
     # If CVR file already uploaded, try reprocessing it, since it depends on
     # batch names from the manifest
     if jurisdiction.cvr_file:
@@ -174,7 +198,7 @@ def validate_ballot_manifest_upload(request: Request):
 # We save the ballot manifest file, and bgcompute finds it and processes it in
 # the background.
 def save_ballot_manifest_file(manifest, jurisdiction: Jurisdiction):
-    manifest_string = decode_csv_file(manifest.read())
+    manifest_string = decode_csv_file(manifest)
     jurisdiction.manifest_file = File(
         id=str(uuid.uuid4()),
         name=manifest.filename,
