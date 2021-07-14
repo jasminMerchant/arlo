@@ -178,7 +178,7 @@ const Ballot: React.FC<IProps> = ({
     }
   }
 
-  const ballotSubmitFunc = (selectionType: string) =>
+  const ballotSubmitFunc = (selectionType: 'not_found' | 'general') =>
     selectionType === 'not_found'
       ? submitBallot(ballot.id, BallotStatus.NOT_FOUND, [])
       : submitBallot(
@@ -189,7 +189,7 @@ const Ballot: React.FC<IProps> = ({
           )
         )
 
-  const initiateConfirm = (selectionType: string) =>
+  const initiateConfirm = (selectionType: 'not_found' | 'general') =>
     confirm({
       title: 'Confirm the Ballot Selections',
       description: (
