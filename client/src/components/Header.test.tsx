@@ -137,25 +137,6 @@ describe('Header', () => {
     })
   })
 
-  it('shows the active audit board name when authenticated as an audit board', async () => {
-    const expectedCalls = [auditBoardApiCalls.getUser]
-    await withMockFetch(expectedCalls, async () => {
-      renderHeader('/election/1/audit-board/audit-board-1')
-
-      // Arlo logo
-      await screen.findByRole('link', {
-        name: 'Arlo, by VotingWorks',
-      })
-
-      // Audit board name
-      expect(screen.getAllByText(/Audit Board #1/).length).toBe(1)
-
-      // should show log out link
-      const logOutButton = screen.getByRole('link', { name: 'Log out' })
-      expect(logOutButton).toHaveAttribute('href', '/auth/logout')
-    })
-  })
-
   it('shows Support Tools navbar when authenticated as a support user', async () => {
     const expectedCalls = [supportApiCalls.getUser]
     await withMockFetch(expectedCalls, async () => {
