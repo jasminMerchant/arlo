@@ -41,8 +41,8 @@ interface IProps {
   contests: IContest[]
   interpretations: IBallotInterpretation[]
   setInterpretations: (interpretations: IBallotInterpretation[]) => void
-  confirmSelections: () => void
   previousBallot: () => void
+  confirmSelections: (interpretations: IBallotInterpretation[]) => void
 }
 
 const BallotAudit: React.FC<IProps> = ({
@@ -61,7 +61,7 @@ const BallotAudit: React.FC<IProps> = ({
           enableReinitialize
           onSubmit={values => {
             setInterpretations(values.interpretations)
-            confirmSelections()
+            confirmSelections(values.interpretations)
           }}
         >
           {({
